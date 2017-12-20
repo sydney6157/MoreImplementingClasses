@@ -2,7 +2,7 @@
 A   CapitalT   class and methods that use the Cross class.
 
 Authors: David Mutchler, Dave Fisher, Valerie Galluzzi, Amanda Stouder,
-         their colleagues and PUT_YOUR_NAME_HERE.
+         their colleagues and Sydney Larson.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import rosegraphics as rg
@@ -14,10 +14,10 @@ def main():
     #   Uncomment only 1 test at a time as you develop your code.
     # --------------------------------------------------------------
 
-    # run_test_simple_t()
-    # run_test_set_colors()
-    # run_test_move_by()
-    # run_test_clone()
+    run_test_simple_t()
+    run_test_set_colors()
+    run_test_move_by()
+    run_test_clone()
 
 
 def run_test_simple_t():
@@ -134,6 +134,25 @@ class CapitalT(object):
           :type height:   int
           :type letter_thickness:   int
         """
+        self.window = 0
+        self.fill = ''
+        self.out = ''
+        self.intersection_center = intersection_center
+        self.width = width
+        self.height = height
+        self.letter_thickness = letter_thickness
+        halfwidth = width / 2
+        halfthick = letter_thickness / 2
+        horiz1 = rg.Point(intersection_center.x - halfwidth,
+                       intersection_center.y - halfthick)
+        horiz2 = rg.Point(intersection_center.x + halfwidth,
+                       intersection_center.y + halfthick)
+        self.h_rect = rg.Rectangle(horiz1, horiz2)
+        vert1 = rg.Point(intersection_center.x - halfthick,
+                       intersection_center.y - halfthick)
+        vert2 = rg.Point(intersection_center.x + halfthick,
+                       intersection_center.y + height - halfthick)
+        self.v_rect = rg.Rectangle(vert1, vert2)
         # --------------------------------------------------------------
         # TODO: 3.
         #   READ the above specification, including the Example.
@@ -159,6 +178,10 @@ class CapitalT(object):
         Type hints:
           :type window: rg.RoseWindow
         """
+        self.v_rect.attach_to(window)
+        self.h_rect.attach_to(window)
+        window.render()
+        self.window = window
         # --------------------------------------------------------------
         # TODO: 4.
         #   READ the above specification, including the Example.
@@ -186,6 +209,12 @@ class CapitalT(object):
           :type fill_color: str
           :type outline_color: str
         """
+        self.v_rect.fill_color = fill_color
+        self.v_rect.outline_color = outline_color
+        self.h_rect.fill_color = fill_color
+        self.h_rect.outline_color = outline_color
+        self.fill = fill_color
+        self.out = outline_color
         # --------------------------------------------------------------
         # TODO: 5.
         #   READ the above specification, including the Example.
@@ -216,6 +245,14 @@ class CapitalT(object):
           :type dx: int
           :type dy: int
         """
+        self.h_rect.corner_1.x += dx
+        self.h_rect.corner_2.x += dx
+        self.h_rect.corner_1.y += dy
+        self.h_rect.corner_2.y += dy
+        self.v_rect.corner_1.x += dx
+        self.v_rect.corner_2.x += dx
+        self.v_rect.corner_1.y += dy
+        self.v_rect.corner_2.y += dy
         # --------------------------------------------------------------
         # TODO: 6.
         #   READ the above specification, including the Example.
@@ -244,6 +281,11 @@ class CapitalT(object):
         Type hints:
           :rtype: CapitalT
         """
+        newt = CapitalT(self.intersection_center, self.width, self.height,
+                        self.letter_thickness)
+        newt.set_colors(self.fill, self.out)
+        return newt
+
         # --------------------------------------------------------------
         # TODO: 7.
         #   READ the above specification, including the Example.

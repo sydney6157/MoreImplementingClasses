@@ -3,7 +3,7 @@ A simple   Line   class.
 NOTE: This is NOT rosegraphics -- it is your OWN Line class.
 
 Authors: David Mutchler, Dave Fisher, Valerie Galluzzi, Amanda Stouder,
-         their colleagues and PUT_YOUR_NAME_HERE.
+         their colleagues and Sydney Larson.
 """  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import math
@@ -216,6 +216,12 @@ class Line(object):
           :type start: Point
           :type end:   Point
         """
+        self.start = start.clone()
+        self.end = end.clone()
+        self.times_cloned = 0
+        self.orig_start = start.clone()
+        self.orig_end = end.clone()
+
         # --------------------------------------------------------------
         # TODO: 3.
         #   a. READ the above specification, including the Example.
@@ -325,6 +331,9 @@ class Line(object):
         Type hints:
           :rtype: Line
         """
+        self.times_cloned += 1
+        return Line(self.start.clone(),self.end.clone())
+
         # --------------------------------------------------------------
         # TODO: 4.
         #   a. READ the above specification, including the Example.
@@ -358,6 +367,9 @@ class Line(object):
             line1.reverse()
             print(line1 == line2)    # Should now print: True
         """
+        end2 = self.end
+        self.end = self.start
+        self.start = end2
         # --------------------------------------------------------------
         # TODO: 5.
         #   a. READ the above specification, including the Example.
@@ -394,6 +406,11 @@ class Line(object):
         Type hints:
           :rtype: float
         """
+        if self.start.x == self.end.x:
+            return math.inf
+        else:
+            return (self.start.y-self.end.y)/(self.start.x-self.end.x)
+
         # --------------------------------------------------------------
         # TODO: 6.
         #   a. READ the above specification, including the Example.
@@ -427,6 +444,7 @@ class Line(object):
         Type hints:
           :rtype: float
         """
+        return self.start.distance_from(self.end)
         # --------------------------------------------------------------
         # TODO: 7.
         #   a. READ the above specification, including the Example.
@@ -467,6 +485,7 @@ class Line(object):
         Type hints:
           :rtype: int:
         """
+        return self.times_cloned
         # --------------------------------------------------------------
         # TODO: 8.
         #   a. READ the above specification, including the Example.
@@ -501,6 +520,8 @@ class Line(object):
           :type  other_line: Line
           :rtype: Line:
         """
+        return Line(self.start.plus(other_line.start),self.end.plus(
+            other_line.end))
         # --------------------------------------------------------------
         # TODO: 9.
         #   a. READ the above specification, including the Example.
@@ -535,6 +556,8 @@ class Line(object):
           :type  other_line: Line
           :rtype: Line:
         """
+        return Line(self.start.minus(other_line.start),
+                    self.end.minus(other_line.end))
         # --------------------------------------------------------------
         # TODO: 10.
         #   a. READ the above specification, including the Example.
@@ -562,6 +585,8 @@ class Line(object):
         Type hints:
           :rtype: Point
         """
+        return self.start.halfway_to(self.end)
+
         # --------------------------------------------------------------
         # TODO: 11.
         #   a. READ the above specification, including the Example.
@@ -598,6 +623,11 @@ class Line(object):
           :type  line2: Line
           :rtype: bool
         """
+        if round(self.slope(),12) == round(line2.slope(),12):
+            return True
+        else:
+            return False
+
         # --------------------------------------------------------------
         # TODO: 12.
         #   a. READ the above specification, including the Example.
@@ -663,6 +693,8 @@ class Line(object):
             print(line1)  # Should print: Line[(-3, -4), (3, 4)]
             print(line2)  # Should print: Line[(0, 1), (10, 20)]
         """
+        self.start = self.orig_start
+        self.end = self.orig_end
         # --------------------------------------------------------------
         # TODO: 13.
         #   a. READ the above specification, including the Example.
